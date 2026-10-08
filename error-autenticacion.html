@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BanescOnline - Error de Autenticación</title>
+  <link rel="icon" href="https://banesco-prod-2020.s3.amazonaws.com/wp-content/themes/banescocontigo/assets/images/header/logo.svg.gzip" type="image/svg+xml">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    }
+
+    body {
+      background-color: #eef2f6;
+      background-image: radial-gradient(#d5dde6 1px, transparent 1px);
+      background-size: 20px 20px;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 16px;
+      color: #1e293b;
+    }
+
+    /* Overlay / Contenedor modal perfectamente centrado */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(15, 23, 42, 0.6);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 16px;
+      z-index: 99999;
+      opacity: 1;
+      visibility: visible;
+      transition: opacity 0.25s ease, visibility 0.25s ease;
+    }
+
+    /* Tarjeta del modal */
+    .modal-card {
+      background-color: #ffffff;
+      width: 100%;
+      max-width: 480px;
+      border-radius: 14px;
+      padding: 28px 28px 22px 28px;
+      box-shadow: 0 20px 45px -10px rgba(0, 0, 0, 0.28), 
+                  0 0 0 1px rgba(0, 0, 0, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.8);
+      position: relative;
+      animation: modalSlideUp 0.28s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      transform-origin: center center;
+    }
+
+    @keyframes modalSlideUp {
+      0% {
+        opacity: 0;
+        transform: scale(0.95) translateY(12px);
+      }
+      100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+      }
+    }
+
+    /* Cabecera */
+    .modal-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding-bottom: 18px;
+      border-bottom: 1px solid #edf2f7;
+    }
+
+    /* Icono de error vectorizado profesional */
+    .error-icon {
+      background: linear-gradient(135deg, #d32f2f 0%, #b71c1c 100%);
+      color: #ffffff;
+      width: 40px;
+      height: 40px;
+      min-width: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 12px rgba(183, 28, 28, 0.32);
+      flex-shrink: 0;
+    }
+
+    .error-icon svg {
+      width: 22px;
+      height: 22px;
+      stroke: #ffffff;
+      stroke-width: 2.8;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      fill: none;
+    }
+
+    .modal-header h2 {
+      font-size: 21px;
+      font-weight: 700;
+      color: #1e293b;
+      letter-spacing: -0.3px;
+      line-height: 1.25;
+    }
+
+    /* Cuerpo del modal */
+    .modal-body {
+      padding: 22px 0 26px 0;
+    }
+
+    .modal-body p {
+      font-size: 15.5px;
+      line-height: 1.6;
+      color: #475569;
+      text-align: left;
+    }
+
+    /* Botón Aceptar - Verde Banesco */
+    .btn-submit {
+      width: 100%;
+      background: linear-gradient(180deg, #00845a 0%, #00704c 100%);
+      color: #ffffff;
+      border: 1px solid #006343;
+      border-radius: 8px;
+      padding: 14px 20px;
+      font-size: 17px;
+      font-weight: 600;
+      cursor: pointer;
+      display: block;
+      outline: none;
+      box-shadow: 0 4px 14px rgba(0, 112, 76, 0.28);
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      text-align: center;
+      user-select: none;
+    }
+
+    .btn-submit:hover {
+      background: linear-gradient(180deg, #007550 0%, #006041 100%);
+      box-shadow: 0 6px 18px rgba(0, 112, 76, 0.38);
+      transform: translateY(-1px);
+    }
+
+    .btn-submit:active {
+      transform: translateY(1px);
+      box-shadow: 0 2px 6px rgba(0, 112, 76, 0.2);
+    }
+
+    /* Enlace inferior con icono de ayuda */
+    .modal-footer {
+      margin-top: 24px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding-bottom: 4px;
+    }
+
+    .footer-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      color: #0b3e6d;
+      text-decoration: none;
+      font-size: 15px;
+      font-weight: 500;
+      transition: color 0.18s ease, transform 0.18s ease;
+      cursor: pointer;
+    }
+
+    .footer-link:hover {
+      color: #072a4c;
+      text-decoration: underline;
+    }
+
+    .help-icon {
+      width: 20px;
+      height: 20px;
+      border: 1.8px solid #0b3e6d;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12.5px;
+      font-weight: 700;
+      flex-shrink: 0;
+      line-height: 1;
+      padding-top: 1px;
+    }
+
+    /* Responsividad */
+    @media (max-width: 480px) {
+      .modal-card {
+        padding: 22px 20px 18px 20px;
+        border-radius: 12px;
+      }
+      .modal-header h2 {
+        font-size: 19px;
+      }
+      .modal-body p {
+        font-size: 14.5px;
+      }
+      .btn-submit {
+        font-size: 16px;
+        padding: 13px 16px;
+      }
+      .footer-link {
+        font-size: 14px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Contenedor Overlay Modal Centrado -->
+  <div class="modal-overlay" id="authErrorModal" role="dialog" aria-modal="true" aria-labelledby="modalErrorTitle">
+    <div class="modal-card">
+      
+      <!-- Cabecera con icono vectorizado y título -->
+      <div class="modal-header">
+        <div class="error-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24">
+            <line x1="12" y1="6" x2="12" y2="13"></line>
+            <circle cx="12" cy="17.5" r="1.2" fill="#ffffff" stroke="none"></circle>
+          </svg>
+        </div>
+        <h2 id="modalErrorTitle">Error de Autenticación</h2>
+      </div>
+
+      <!-- Mensaje explicativo oficial -->
+      <div class="modal-body">
+        <p id="modalErrorDesc">
+          Usuario, clave o clave especial inválida, por favor verifique e intente de nuevo. 
+          Recuerde que al ingresar la clave errada en tres (3) intentos consecutivos, su acceso 
+          será bloqueado por medidas de seguridad.
+        </p>
+      </div>
+
+      <!-- Botón de confirmación -->
+      <button type="button" class="btn-submit" id="btnAceptarError" onclick="cerrarModal()">Aceptar</button>
+
+      <!-- Pie con enlace de recuperación -->
+      <div class="modal-footer">
+        <a href="iniciar.html" class="footer-link">
+          <span class="help-icon" aria-hidden="true">?</span>
+          <span>¿Olvidó su usuario o clave de acceso?</span>
+        </a>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    function cerrarModal() {
+      const modal = document.getElementById('authErrorModal');
+      if (modal) {
+        modal.style.opacity = '0';
+        modal.style.visibility = 'hidden';
+      }
+    }
+
+    function abrirModal() {
+      const modal = document.getElementById('authErrorModal');
+      if (modal) {
+        modal.style.visibility = 'visible';
+        modal.style.opacity = '1';
+      }
+    }
+
+    // Cerrar también con tecla Escape
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        cerrarModal();
+      }
+    });
+  </script>
+
+</body>
+</html>
